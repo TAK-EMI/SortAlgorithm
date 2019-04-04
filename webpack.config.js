@@ -50,6 +50,14 @@ module.exports = {
 					to: '../'
 				}
 			]
+		),
+		new CopyPlugin(
+			[
+				{
+					from: './src/css/main.css',
+					to: '../css'
+				}
+			]
 		)
 	]
 };
