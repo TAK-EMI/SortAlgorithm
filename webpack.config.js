@@ -22,6 +22,9 @@ module.exports = {
 				test: /\.js$/,
 				exclude: /(node_modules|dist)/,
 				loader: "eslint-loader",
+				options: {
+					fix: true
+				}
 			},
 			{
 				test: /\.js$/,
@@ -31,10 +34,7 @@ module.exports = {
 					options: {
 						presets: [
 							[
-								"@babel/preset-env",
-								{
-									"useBuiltIns": "entry"
-								}
+								"@babel/preset-env"
 							]
 						]
 					}
