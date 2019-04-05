@@ -8,7 +8,9 @@ module.exports = {
 	entry: {
 		'main': [
 			'@babel/polyfill',
-			'./src/app.js'
+			'./src/js/Window.js',
+			'./src/js/Canvas.js',
+			'./src/js/sort/Bubble.js',
 		]
 	},
 	output: {
@@ -48,6 +50,14 @@ module.exports = {
 				{
 					from: './index.html',
 					to: '../'
+				}
+			]
+		),
+		new CopyPlugin(
+			[
+				{
+					from: './src/css/main.css',
+					to: '../css'
 				}
 			]
 		)
