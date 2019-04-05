@@ -1,7 +1,12 @@
 table, td, th {
 	border: 1px solid black;
 }
-
+td {
+	font-size: 0em;
+}
+th {
+	text-align: left;
+}
 .step {
 	float: right;
 }

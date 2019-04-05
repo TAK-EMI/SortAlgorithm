@@ -19,4 +19,45 @@ export default class View
 
 		return;
 	}
+
+	static showPlayButton()
+	{
+		this.showElementInline('btn_play');
+		return;
+	}
+	static hidePlayButton()
+	{
+		this.hideElement('btn_play');
+		return;
+	}
+	static showStopButton()
+	{
+		this.showElementInline('btn_stop');
+		return;
+	}
+	static hideStopButton()
+	{
+		this.hideElement('btn_stop');
+		return;
+	}
+
+	static showElementInline(id)
+	{
+		let el = document.getElementById(id);
+		if(el)
+		{
+			el.style.display = 'inline';
+		}
+
+		return;
+	}
+	static hideElement(id)
+	{
+		let el = document.getElementById(id);
+		if(el)
+		{
+			el.style.display = 'none';
+		}
+		return;
+	}
 }
