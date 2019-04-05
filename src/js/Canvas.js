@@ -16,33 +16,38 @@ export default class Canvas
 		return;
 	}
 
-	draw()
+	clear()
 	{
-		this.context.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
+		let ctx = this.context;
+		ctx.fillStyle = '#000000';
 
-		this.drawSortItem(0, 0);
-		this.drawSortItem(1, 1);
-		this.drawSortItem(2, 2);
-		this.drawSortItem(3, 3);
-		this.drawSortItem(4, 4);
-		this.drawSortItem(5, 5);
-		this.drawSortItem(6, 6);
-		this.drawSortItem(7, 7);
-		this.drawSortItem(8, 8);
-		this.drawSortItem(9, 9);
+		let cW = this.canvasWidth;
+		let cH = this.canvasHeight;
 
-		this.drawSortItem(10, 10);
-		this.drawSortItem(11, 11);
-		this.drawSortItem(12, 12);
-		this.drawSortItem(13, 13);
-		this.drawSortItem(14, 14);
-		this.drawSortItem(15, 15);
-		this.drawSortItem(16, 16);
-		this.drawSortItem(17, 17);
-		this.drawSortItem(18, 18);
-		this.drawSortItem(19, 19);
+		ctx.fillRect(0, 0, cW, cH);
 
-		this.drawCurrentItem(10);
+		ctx.strokeStyle = '#555555';
+		let y = 1;
+		while ((y * SORT_ITEM_HEIGHT_STEP) < cH)
+		{
+			this.drawLine(0, y * SORT_ITEM_HEIGHT_STEP, cW, y * SORT_ITEM_HEIGHT_STEP);
+			y += 1;
+		}
+
+		return;
+	}
+	draw(sData)
+	{
+		this.clear();
+
+		let array = sData.array;
+		for (let i = 0; i < array.length; i++)
+		{
+			this.drawSortItem(i, array[i]);
+		}
+
+		this.drawCurrentItem(sData.currentIdx);
+		this.drawTargetItem(sData.targetIdx);
 
 		return;
 	}
@@ -50,6 +55,14 @@ export default class Canvas
 	{
 		let ctx = this.context;
 		ctx.fillStyle = '#FF000055';
+		this.drawFillRect(SORT_ITEM_WIDTH * idx, 0, SORT_ITEM_WIDTH, this.canvasHeight);
+
+		return;
+	}
+	drawTargetItem(idx)
+	{
+		let ctx = this.context;
+		ctx.fillStyle = '#0000FF55';
 		this.drawFillRect(SORT_ITEM_WIDTH * idx, 0, SORT_ITEM_WIDTH, this.canvasHeight);
 
 		return;
@@ -62,6 +75,18 @@ export default class Canvas
 
 		ctx.strokeStyle = 'gray';
 		this.drawStrokeRect(SORT_ITEM_WIDTH * idx, 0, SORT_ITEM_WIDTH, height * SORT_ITEM_HEIGHT_STEP);
+
+		return;
+	}
+	drawLine(x1, y1, x2, y2)
+	{
+		let ctx = this.context;
+
+		ctx.beginPath();
+		ctx.moveTo(x1, y1);
+		ctx.lineTo(x2, y2);
+
+		ctx.stroke();
 
 		return;
 	}

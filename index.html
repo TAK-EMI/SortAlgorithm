@@ -10,9 +10,16 @@
 </head>
 <body>
 	<h1>Sort Algorithm</h1>
+	<form>
+		<input type="number" name="interval" id="interval" value="100">ms
+		<input type="button" value="再生" id="btn_play" onclick="play()">
+	</form>
 	<table>
 		<tr>
-			<th>バブルソート</th>
+			<th>
+				<div id="step_bubble" class="step"></div>
+				バブルソート
+			</th>
 			<th>選択ソート</th>
 			<th>挿入ソート</th>
 		</tr>
