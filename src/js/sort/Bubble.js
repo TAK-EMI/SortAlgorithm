@@ -32,6 +32,11 @@ export default class Bubble
 		return;
 	}
 
+	stop()
+	{
+		this.isPlay = false;
+		return;
+	}
 	async play(interval)
 	{
 		this.isPlay = true;
