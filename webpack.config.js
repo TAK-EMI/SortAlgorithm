@@ -12,6 +12,7 @@ module.exports = {
 			'./src/js/Window.js',
 			'./src/js/Canvas.js',
 			'./src/js/sort/Bubble.js',
+			'./src/js/sort/Selection.js',
 		]
 	},
 	output: {
