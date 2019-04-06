@@ -17,6 +17,7 @@ export default class SortData
 			let idx = Math.floor(Math.random() * store.length);
 
 			obj.array[i] = store[idx];
+			obj.fixArray[i] = false;
 
 			store.splice(idx, 1);
 		}
@@ -27,6 +28,7 @@ export default class SortData
 	{
 		let obj = new SortData();
 		obj.array = sData.array.slice();
+		obj.fixArray = sData.fixArray.slice();
 		obj.currentIdx = sData.currentIdx;
 		obj.targetIdx = sData.targetIdx;
 		obj.pivotIdx = sData.pivotIdx;
@@ -52,6 +54,7 @@ export default class SortData
 	constructor()
 	{
 		this.array = [];
+		this.fixArray = [];
 		this.currentIdx = -1;
 		this.targetIdx = -1;
 		this.pivotIdx = -1;
@@ -67,18 +70,27 @@ export default class SortData
 	{
 		let ret = true;
 		idxList.forEach(idx =>
+		{
+			if((0 <= idx && idx < this.Length) == false)
 			{
-				if((0 <= idx && idx < this.Length) == false)
-				{
-					ret = false;
-				}
-			});
+				ret = false;
+			}
+		});
 
 		return ret;
 	}
 	isLast(idx)
 	{
 		return (idx === (this.Length - 1));
+	}
+	isFixed(idx)
+	{
+		return this.fixArray[idx];
+	}
+	fixItem(idx)
+	{
+		this.fixArray[idx] = true;
+		return;
 	}
 	swap(idx1, idx2)
 	{

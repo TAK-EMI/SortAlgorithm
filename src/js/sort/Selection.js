@@ -1,9 +1,9 @@
 'use strict';
 
-import BaseSort from "./BaseSort";
+import BaseSort from './BaseSort';
 import View from '../View';
 import Canvas from '../Canvas';
-import { Sleep } from "../Utility";
+import { Sleep } from '../Utility';
 
 export default class Slection extends BaseSort
 {

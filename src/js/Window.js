@@ -3,10 +3,14 @@
 import View from './View';
 import SortData from './SortData';
 import Bubble from './sort/Bubble';
-import Selection from "./sort/Selection";
+import Selection from './sort/Selection';
+import Insertion from './sort/Insertion';
 
-let bubble = new Bubble();
-let select = new Selection();
+let AlgorithmList = {
+	'Bubble': new Bubble(),
+	'Selection': new Selection(),
+	'Insertion': new Insertion(),
+};
 
 let isPlay = false;
 let timerID = null;
@@ -18,10 +22,14 @@ async function OnPlay()
 	isPlay = true;
 	while(isPlay)
 	{
-		let finishedBubble = bubble.playStep(interval);
-		let finishedSelection = select.playStep(interval);
+		let finishedBubble = AlgorithmList['Bubble'].playStep(interval);
+		let finishedSelection = AlgorithmList['Selection'].playStep(interval);
+		let finishedInsertion = AlgorithmList['Insertion'].playStep(interval);
 
-		if(((await finishedBubble) && (await finishedSelection)) == true)
+		if(((await finishedBubble)
+		&& (await finishedSelection)
+		&& (await finishedInsertion)
+			) == true)
 		{
 			finished = true;
 			isPlay = false;
@@ -39,8 +47,10 @@ async function OnPlay()
 window.init = () =>
 {
 	let sData = new SortData.createRandom(20, 20);
-	bubble.init(sData.copy());
-	select.init(sData.copy());
+	for (const key in AlgorithmList)
+	{
+		AlgorithmList[key].init(sData.copy());
+	}
 
 	View.showPlayButton();
 	View.hideStopButton();

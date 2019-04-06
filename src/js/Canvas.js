@@ -41,9 +41,10 @@ export default class Canvas
 		this.clear();
 
 		let array = sData.array;
+		let fixed = sData.fixArray;
 		for (let i = 0; i < array.length; i++)
 		{
-			this.drawSortItem(i, array[i]);
+			this.drawSortItem(i, array[i], fixed[i]);
 		}
 
 		this.drawCurrentItem(sData.currentIdx);
@@ -76,10 +77,16 @@ export default class Canvas
 
 		return;
 	}
-	drawSortItem(idx, height)
+	drawSortItem(idx, height, fixed)
 	{
 		let ctx = this.context;
-		ctx.fillStyle = 'white';
+		if(fixed)
+		{
+			ctx.fillStyle = 'darkgray';
+		}else
+		{
+			ctx.fillStyle = 'white';
+		}
 		this.drawFillRect(SORT_ITEM_WIDTH * idx, 0, SORT_ITEM_WIDTH, height * SORT_ITEM_HEIGHT_STEP);
 
 		ctx.strokeStyle = 'gray';

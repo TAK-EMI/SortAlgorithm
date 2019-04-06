@@ -14,6 +14,7 @@ module.exports = {
 			'./src/js/sort/BaseSort.js',
 			'./src/js/sort/Bubble.js',
 			'./src/js/sort/Selection.js',
+			'./src/js/sort/Insertion.js',
 		]
 	},
 	output: {
