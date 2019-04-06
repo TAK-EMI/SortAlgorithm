@@ -104,14 +104,10 @@ export default class Slection extends BaseSort
 
 		if(data.isLastWithCurrent == true && target != pivot)
 		{
-			if(data.isInOfBounds(pivot) && data.isInOfBounds(target))
+			if(array[pivot] < array[target])
 			{
-				if(array[pivot] < array[target])
+				if(data.swap(pivot, target) == true)
 				{
-					let w = array[pivot];
-					array[pivot] = array[target];
-					array[target] = w;
-
 					this.sorted();
 				}
 			}

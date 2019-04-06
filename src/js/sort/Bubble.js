@@ -89,14 +89,10 @@ export default class Bubble extends BaseSort
 		let curIdx = data.currentIdx;
 		let targetIdx = data.targetIdx;
 
-		if(data.isInOfBounds(curIdx) && data.isInOfBounds(targetIdx))
+		if(array[curIdx] > array[targetIdx])
 		{
-			if(array[curIdx] > array[targetIdx])
+			if(data.swap(curIdx, targetIdx) == true)
 			{
-				let w = array[curIdx];
-				array[curIdx] = array[targetIdx];
-				array[targetIdx] = w;
-
 				this.sorted();
 			}
 		}

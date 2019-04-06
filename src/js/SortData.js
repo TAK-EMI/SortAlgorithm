@@ -71,4 +71,20 @@ export default class SortData
 	{
 		return (idx == (this.Length - 1));
 	}
+	swap(idx1, idx2)
+	{
+		let ret = false;
+		let array = this.array;
+
+		if(this.isInOfBounds(idx1) == true && this.isInOfBounds(idx2) == true)
+		{
+			let w = array[idx1];
+			array[idx1] = array[idx2];
+			array[idx2] = w;
+
+			ret = true;
+		}
+
+		return ret;
+	}
 }
