@@ -30,33 +30,26 @@ export default class Bubble extends BaseSort
 
 	playStep(interval)
 	{
-		return new Promise(async(resolve, reject) =>
+		return new Promise(async(resolve) =>
 		{
-			try
+			if(this.isFinish == false)
 			{
-				if(this.isFinish == false)
-				{
-					this.changeCurrent();
-					this.draw();
-					await Sleep(interval);
-		
-					this.selectTarget();
-					this.draw();
-					await Sleep(interval);
-				
-					this.sort();
-					this.draw();
-					await Sleep(interval);
+				this.changeCurrent();
+				this.draw();
+				await Sleep(interval);
+	
+				this.selectTarget();
+				this.draw();
+				await Sleep(interval);
+			
+				this.sort();
+				this.draw();
+				await Sleep(interval);
 
-					this.stepUp();
-				}
-		
-				resolve(this.isFinish);
-			} catch (error)
-			{
-				console.error(error);
-				reject(true);
+				this.stepUp();
 			}
+	
+			resolve(this.isFinish);
 		});
 	}
 
@@ -96,15 +89,17 @@ export default class Bubble extends BaseSort
 	sort()
 	{
 		let data = this.data;
-		let array = data.array;
 		let curIdx = data.currentIdx;
 		let targetIdx = data.targetIdx;
 
-		if(array[curIdx] > array[targetIdx])
+		if(data.isInOfBounds(targetIdx,curIdx) == true)
 		{
-			if(data.swap(curIdx, targetIdx) == true)
+			if(data.isASC(targetIdx, curIdx) == true)
 			{
-				this.sorted();
+				if(data.swap(curIdx, targetIdx) == true)
+				{
+					this.sorted();
+				}
 			}
 		}
 

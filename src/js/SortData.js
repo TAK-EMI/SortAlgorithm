@@ -96,4 +96,48 @@ export default class SortData
 
 		return ret;
 	}
+	// 昇順
+	isASC(idx1, idx2)
+	{
+		let array = this.array;
+
+		if(this.isInOfBounds(idx1, idx2) == false)
+		{
+			throw `Index Out Of Bounds. ArrayLength[${this.Length}], idx1[${idx1}], idx2[${idx2}]`;
+		}
+		return (array[idx1] < array[idx2]);
+	}
+	// 降順
+	isDESC(idx1, idx2)
+	{
+		let array = this.array;
+
+		if(this.isInOfBounds(idx1, idx2) == false)
+		{
+			throw `Index Out Of Bounds. ArrayLength[${this.Length}], idx1[${idx1}], idx2[${idx2}]`;
+		}
+		return (array[idx1] > array[idx2]);
+	}
+	// 以上
+	isOrMore(idx1, idx2)
+	{
+		let array = this.array;
+
+		if(this.isInOfBounds(idx1, idx2) == false)
+		{
+			throw `Index Out Of Bounds. ArrayLength[${this.Length}], idx1[${idx1}], idx2[${idx2}]`;
+		}
+		return (array[idx1] <= array[idx2]);
+	}
+	// 以下
+	isOrLess(idx1, idx2)
+	{
+		let array = this.array;
+
+		if(this.isInOfBounds(idx1, idx2) == false)
+		{
+			throw `Index Out Of Bounds. ArrayLength[${this.Length}], idx1[${idx1}], idx2[${idx2}]`;
+		}
+		return (array[idx1] >= array[idx2]);
+	}
 }

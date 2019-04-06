@@ -10,7 +10,6 @@ export default class Slection extends BaseSort
 	constructor()
 	{
 		super();
-		this.target = 0;
 	}
 
 	init(sData)
@@ -33,34 +32,26 @@ export default class Slection extends BaseSort
 	}
 	playStep(interval)
 	{
-		return new Promise(async (resolve, reject) =>
+		return new Promise(async (resolve) =>
 		{
-			try
+			if(this.isFinish == false)
 			{
-				if(this.isFinish == false)
-				{
-					await this.changeCurrent();
-					this.draw();
-					await Sleep(interval);
-			
-					await this.selectPivot();
-					this.draw();
-					await Sleep(interval);
-			
-					await this.sort();
-					this.draw();
-					await Sleep(interval);
-				
-					this.stepUp();
-				}
+				await this.changeCurrent();
+				this.draw();
+				await Sleep(interval);
 		
-				resolve(this.isFinish);
-			} catch (error)
-			{
-				console.error(error);
-				
-				reject(true);
+				await this.selectPivot();
+				this.draw();
+				await Sleep(interval);
+		
+				await this.sort();
+				this.draw();
+				await Sleep(interval);
+			
+				this.stepUp();
 			}
+	
+			resolve(this.isFinish);
 		});
 	}
 	changeCurrent()
@@ -92,13 +83,12 @@ export default class Slection extends BaseSort
 	selectPivot()
 	{
 		let data = this.data;
-		let array = data.array;
 		let pivot = data.pivotIdx;
 		let cur = data.currentIdx;
 
 		if(data.isInOfBounds(pivot, cur) == true)
 		{
-			if(array[cur] < array[pivot])
+			if(data.isASC(cur, pivot) == true)
 			{
 				data.pivotIdx = cur;
 			}
@@ -109,13 +99,12 @@ export default class Slection extends BaseSort
 	sort()
 	{
 		let data = this.data;
-		let array = data.array;
 		let pivot = data.pivotIdx;
 		let target = data.targetIdx;
 
 		if(data.isLastWithCurrent == true && target != pivot)
 		{
-			if(array[pivot] < array[target])
+			if(data.isASC(pivot, target) == true)
 			{
 				if(data.swap(pivot, target) == true)
 				{

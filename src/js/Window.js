@@ -11,6 +11,31 @@ let select = new Selection();
 let isPlay = false;
 let timerID = null;
 
+async function OnPlay()
+{
+	let interval = View.PlayInterval;
+	let finished = false;
+	isPlay = true;
+	while(isPlay)
+	{
+		let finishedBubble = bubble.playStep(interval);
+		let finishedSelection = select.playStep(interval);
+
+		if(((await finishedBubble) && (await finishedSelection)) == true)
+		{
+			finished = true;
+			isPlay = false;
+		}
+	}
+	window.stop();
+	if(finished == true)
+	{
+		View.hidePlayButton();
+		View.hideStopButton();
+	}
+	return;
+}
+
 window.init = () =>
 {
 	let sData = new SortData.createRandom(20, 20);
@@ -29,19 +54,7 @@ window.play = () =>
 	View.showStopButton();
 
 	timerID = setTimeout(async () => {
-		let interval = View.PlayInterval;
-		isPlay = true;
-		while(isPlay)
-		{
-			let finishedBubble = bubble.playStep(interval);
-			let finishedSelection = select.playStep(interval);
-
-			if(((await finishedBubble) && (await finishedSelection)) == true)
-			{
-				isPlay = false;
-			}
-		}
-		window.stop();
+		OnPlay();
 	}, 0);
 
 	return;
