@@ -2,60 +2,25 @@
 
 import { Sleep } from '../Utility';
 
+import BaseSort, {EnumStatus} from './BaseSort';
 import View from '../View';
 import Canvas from '../Canvas';
 
-const EnumStatus = {
-	Sorting: 0,
-	Sorted: 1,
-	Finish: 2,
-};
-
-export default class Bubble
+export default class Bubble extends BaseSort
 {
-	get Step()
+	constructor()
 	{
-		return this.stepValue;
+		super();
 	}
 
 	init(sData)
 	{
-		this.canvas = new Canvas(View.CanvasElement_Bubble);
-
-		this.data = sData;
-		this.state = EnumStatus.Sorting;
-		this.isPlay = false;
-		this.stepValue = 0;
-
-		this.draw();
+		super.init(sData, new Canvas(View.CanvasElement_Bubble));
 
 		return;
 	}
 
-	stop()
-	{
-		this.isPlay = false;
-		return;
-	}
-	async play(interval)
-	{
-		this.isPlay = true;
-
-		setTimeout(async() => {
-			while(this.isPlay)
-			{
-				await this.step(interval);
-				await Sleep(interval);
-				if(this.state == EnumStatus.Finish)
-				{
-					this.isPlay = false;
-				}
-			}
-		}, 0);
-
-		return;
-	}
-	async step(interval)
+	async playStep(interval)
 	{
 		this.changeCurrent();
 		this.draw();
@@ -72,13 +37,6 @@ export default class Bubble
 
 		this.stepValue += 1;
 
-		return;
-	}
-
-	draw()
-	{
-		this.canvas.draw(this.data);
-		View.StepBubble = this.stepValue;
 		return;
 	}
 
@@ -137,9 +95,5 @@ export default class Bubble
 		}
 
 		return;
-	}
-	isFinish()
-	{
-		return (this.state === EnumStatus.Finish);
 	}
 }
