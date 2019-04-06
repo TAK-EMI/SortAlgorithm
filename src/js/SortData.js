@@ -34,6 +34,21 @@ export default class SortData
 		return obj;
 	}
 
+	get Length()
+	{
+		return this.array.length;
+	}
+	// targetIdxが最後のアイテムを指しているかどうか
+	get isLastWithTarget()
+	{
+		return this.isLast(this.targetIdx);
+	}
+	// currentIdxが最後のアイテムを指しているかどうか
+	get isLastWithCurrent()
+	{
+		return this.isLast(this.currentIdx);
+	}
+
 	constructor()
 	{
 		this.array = [];
@@ -47,5 +62,13 @@ export default class SortData
 	copy()
 	{
 		return SortData.copy(this);
+	}
+	isInOfBounds(idx)
+	{
+		return (0 <= idx && idx < this.Length);
+	}
+	isLast(idx)
+	{
+		return (idx == (this.Length - 1));
 	}
 }

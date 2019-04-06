@@ -2,7 +2,7 @@
 
 import { Sleep } from '../Utility';
 
-import BaseSort, {EnumStatus} from './BaseSort';
+import BaseSort from './BaseSort';
 import View from '../View';
 import Canvas from '../Canvas';
 
@@ -32,16 +32,17 @@ export default class Bubble extends BaseSort
 	{
 		this.changeCurrent();
 		this.draw();
-	
 		await Sleep(interval);
-	
-		this.selectTarget();
-		this.draw();
-	
-		await Sleep(interval);
-	
-		this.sort();
-		this.draw();
+
+		if(this.isFinish == false)
+		{
+			this.selectTarget();
+			this.draw();
+			await Sleep(interval);
+		
+			this.sort();
+			this.draw();
+		}
 
 		this.stepUp();
 
@@ -54,16 +55,15 @@ export default class Bubble extends BaseSort
 
 		data.currentIdx += 1;
 
-		if(data.currentIdx == data.array.length - 1)
+		if(data.isLastWithCurrent == true)
 		{
-			if(this.state == EnumStatus.Sorting)
+			if(this.isSorting == true)
 			{
-				data.currentIdx = -1;
-				this.state = EnumStatus.Finish;
+				this.finish();
 			}else
 			{
 				data.currentIdx = 0;
-				this.state = EnumStatus.Sorting;
+				this.sorting();
 			}
 		}
 
@@ -86,11 +86,10 @@ export default class Bubble extends BaseSort
 	{
 		let data = this.data;
 		let array = data.array;
-		let aLength = array.length;
 		let curIdx = data.currentIdx;
 		let targetIdx = data.targetIdx;
 
-		if((0 <= curIdx && aLength > curIdx) && (0 <= targetIdx && aLength > targetIdx))
+		if(data.isInOfBounds(curIdx) && data.isInOfBounds(targetIdx))
 		{
 			if(array[curIdx] > array[targetIdx])
 			{
@@ -98,7 +97,7 @@ export default class Bubble extends BaseSort
 				array[curIdx] = array[targetIdx];
 				array[targetIdx] = w;
 
-				this.state = EnumStatus.Sorted;
+				this.sorted();
 			}
 		}
 

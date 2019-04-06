@@ -18,6 +18,10 @@ export default class BaseSort
 	{
 		return (this.state === EnumStatus.Finish);
 	}
+	get isSorting()
+	{
+		return (this.state === EnumStatus.Sorting);
+	}
 
 	constructor()
 	{
@@ -77,6 +81,27 @@ export default class BaseSort
 		this.stepValue += 1;
 		return;
 	}
+	sorting()
+	{
+		this.state = EnumStatus.Sorting;
+		return;
+	}
+	sorted()
+	{
+		this.state = EnumStatus.Sorted;
+		return;
+	}
+	finish()
+	{
+		this.state = EnumStatus.Finish;
+
+		let data = this.data;
+		data.currentIdx = -1;
+		data.targetIdx = -1;
+		data.pivotIdx = -1;
+
+		return;
+	}
 
 	draw()
 	{
@@ -92,11 +117,14 @@ export default class BaseSort
 	{
 		return;
 	}
+	selectPivot()
+	{
+		return;
+	}
 	sort()
 	{
 		return;
 	}
-
 }
 
 
