@@ -2,83 +2,50 @@
 
 import { Sleep } from '../Utility';
 
+import BaseSort from './BaseSort';
 import View from '../View';
 import Canvas from '../Canvas';
 
-const EnumStatus = {
-	Sorting: 0,
-	Sorted: 1,
-	Finish: 2,
-};
-
-export default class Bubble
+export default class Bubble extends BaseSort
 {
-	get Step()
+	constructor()
 	{
-		return this.stepValue;
+		super();
 	}
 
 	init(sData)
 	{
-		this.canvas = new Canvas(View.CanvasElement_Bubble);
-
-		this.data = sData;
-		this.state = EnumStatus.Sorting;
-		this.isPlay = false;
-		this.stepValue = 0;
-
-		this.draw();
-
-		return;
-	}
-
-	stop()
-	{
-		this.isPlay = false;
-		return;
-	}
-	async play(interval)
-	{
-		this.isPlay = true;
-
-		setTimeout(async() => {
-			while(this.isPlay)
-			{
-				await this.step(interval);
-				await Sleep(interval);
-				if(this.state == EnumStatus.Finish)
-				{
-					this.isPlay = false;
-				}
-			}
-		}, 0);
-
-		return;
-	}
-	async step(interval)
-	{
-		this.changeCurrent();
-		this.draw();
-	
-		await Sleep(interval);
-	
-		this.selectTarget();
-		this.draw();
-	
-		await Sleep(interval);
-	
-		this.sort();
-		this.draw();
-
-		this.stepValue += 1;
+		super.init(sData, new Canvas(View.CanvasElementBubble));
 
 		return;
 	}
 
 	draw()
 	{
-		this.canvas.draw(this.data);
-		View.StepBubble = this.stepValue;
+		super.draw();
+		View.StepValueBubble = this.stepValue;
+
+		return;
+	}
+
+	async playStep(interval)
+	{
+		this.changeCurrent();
+		this.draw();
+		await Sleep(interval);
+
+		if(this.isFinish == false)
+		{
+			this.selectTarget();
+			this.draw();
+			await Sleep(interval);
+		
+			this.sort();
+			this.draw();
+		}
+
+		this.stepUp();
+
 		return;
 	}
 
@@ -88,16 +55,15 @@ export default class Bubble
 
 		data.currentIdx += 1;
 
-		if(data.currentIdx == data.array.length - 1)
+		if(data.isLastWithCurrent == true)
 		{
-			if(this.state == EnumStatus.Sorting)
+			if(this.isSorting == true)
 			{
-				data.currentIdx = -1;
-				this.state = EnumStatus.Finish;
+				this.finish();
 			}else
 			{
 				data.currentIdx = 0;
-				this.state = EnumStatus.Sorting;
+				this.sorting();
 			}
 		}
 
@@ -120,11 +86,10 @@ export default class Bubble
 	{
 		let data = this.data;
 		let array = data.array;
-		let aLength = array.length;
 		let curIdx = data.currentIdx;
 		let targetIdx = data.targetIdx;
 
-		if((0 <= curIdx && aLength > curIdx) && (0 <= targetIdx && aLength > targetIdx))
+		if(data.isInOfBounds(curIdx) && data.isInOfBounds(targetIdx))
 		{
 			if(array[curIdx] > array[targetIdx])
 			{
@@ -132,14 +97,10 @@ export default class Bubble
 				array[curIdx] = array[targetIdx];
 				array[targetIdx] = w;
 
-				this.state = EnumStatus.Sorted;
+				this.sorted();
 			}
 		}
 
 		return;
-	}
-	isFinish()
-	{
-		return (this.state === EnumStatus.Finish);
 	}
 }

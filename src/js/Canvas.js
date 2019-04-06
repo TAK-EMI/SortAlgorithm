@@ -48,6 +48,7 @@ export default class Canvas
 
 		this.drawCurrentItem(sData.currentIdx);
 		this.drawTargetItem(sData.targetIdx);
+		this.drawPivotItem(sData.pivotIdx);
 
 		return;
 	}
@@ -63,6 +64,14 @@ export default class Canvas
 	{
 		let ctx = this.context;
 		ctx.fillStyle = '#0000FF55';
+		this.drawFillRect(SORT_ITEM_WIDTH * idx, 0, SORT_ITEM_WIDTH, this.canvasHeight);
+
+		return;
+	}
+	drawPivotItem(idx)
+	{
+		let ctx = this.context;
+		ctx.fillStyle = '#FFFF0055';
 		this.drawFillRect(SORT_ITEM_WIDTH * idx, 0, SORT_ITEM_WIDTH, this.canvasHeight);
 
 		return;

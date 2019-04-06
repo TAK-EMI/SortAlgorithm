@@ -11,7 +11,9 @@ module.exports = {
 			'./src/js/Utility.js',
 			'./src/js/Window.js',
 			'./src/js/Canvas.js',
+			'./src/js/sort/BaseSort.js',
 			'./src/js/sort/Bubble.js',
+			'./src/js/sort/Selection.js',
 		]
 	},
 	output: {

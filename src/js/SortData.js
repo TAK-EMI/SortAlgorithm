@@ -29,8 +29,24 @@ export default class SortData
 		obj.array = sData.array.slice();
 		obj.currentIdx = sData.currentIdx;
 		obj.targetIdx = sData.targetIdx;
+		obj.pivotIdx = sData.pivotIdx;
 
 		return obj;
+	}
+
+	get Length()
+	{
+		return this.array.length;
+	}
+	// targetIdxが最後のアイテムを指しているかどうか
+	get isLastWithTarget()
+	{
+		return this.isLast(this.targetIdx);
+	}
+	// currentIdxが最後のアイテムを指しているかどうか
+	get isLastWithCurrent()
+	{
+		return this.isLast(this.currentIdx);
 	}
 
 	constructor()
@@ -38,6 +54,7 @@ export default class SortData
 		this.array = [];
 		this.currentIdx = -1;
 		this.targetIdx = -1;
+		this.pivotIdx = -1;
 
 		return;
 	}
@@ -45,5 +62,13 @@ export default class SortData
 	copy()
 	{
 		return SortData.copy(this);
+	}
+	isInOfBounds(idx)
+	{
+		return (0 <= idx && idx < this.Length);
+	}
+	isLast(idx)
+	{
+		return (idx == (this.Length - 1));
 	}
 }
