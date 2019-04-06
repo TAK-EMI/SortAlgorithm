@@ -29,6 +29,7 @@ export default class SortData
 		obj.array = sData.array.slice();
 		obj.currentIdx = sData.currentIdx;
 		obj.targetIdx = sData.targetIdx;
+		obj.pivotIdx = sData.pivotIdx;
 
 		return obj;
 	}
@@ -38,6 +39,7 @@ export default class SortData
 		this.array = [];
 		this.currentIdx = -1;
 		this.targetIdx = -1;
+		this.pivotIdx = -1;
 
 		return;
 	}
