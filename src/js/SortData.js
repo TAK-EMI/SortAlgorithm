@@ -63,20 +63,29 @@ export default class SortData
 	{
 		return SortData.copy(this);
 	}
-	isInOfBounds(idx)
+	isInOfBounds(...idxList)
 	{
-		return (0 <= idx && idx < this.Length);
+		let ret = true;
+		idxList.forEach(idx =>
+			{
+				if((0 <= idx && idx < this.Length) == false)
+				{
+					ret = false;
+				}
+			});
+
+		return ret;
 	}
 	isLast(idx)
 	{
-		return (idx == (this.Length - 1));
+		return (idx === (this.Length - 1));
 	}
 	swap(idx1, idx2)
 	{
 		let ret = false;
 		let array = this.array;
 
-		if(this.isInOfBounds(idx1) == true && this.isInOfBounds(idx2) == true)
+		if(this.isInOfBounds(idx1, idx2) == true)
 		{
 			let w = array[idx1];
 			array[idx1] = array[idx2];

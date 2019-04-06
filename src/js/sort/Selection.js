@@ -96,7 +96,7 @@ export default class Slection extends BaseSort
 		let pivot = data.pivotIdx;
 		let cur = data.currentIdx;
 
-		if(data.isInOfBounds(pivot) && data.isInOfBounds(cur))
+		if(data.isInOfBounds(pivot, cur) == true)
 		{
 			if(array[cur] < array[pivot])
 			{
