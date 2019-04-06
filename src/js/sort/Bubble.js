@@ -28,25 +28,36 @@ export default class Bubble extends BaseSort
 		return;
 	}
 
-	async playStep(interval)
+	playStep(interval)
 	{
-		this.changeCurrent();
-		this.draw();
-		await Sleep(interval);
-
-		if(this.isFinish == false)
+		return new Promise(async(resolve, reject) =>
 		{
-			this.selectTarget();
-			this.draw();
-			await Sleep(interval);
+			try
+			{
+				if(this.isFinish == false)
+				{
+					this.changeCurrent();
+					this.draw();
+					await Sleep(interval);
 		
-			this.sort();
-			this.draw();
-		}
+					this.selectTarget();
+					this.draw();
+					await Sleep(interval);
+				
+					this.sort();
+					this.draw();
+					await Sleep(interval);
 
-		this.stepUp();
-
-		return;
+					this.stepUp();
+				}
+		
+				resolve(this.isFinish);
+			} catch (error)
+			{
+				console.error(error);
+				reject(true);
+			}
+		});
 	}
 
 	changeCurrent()

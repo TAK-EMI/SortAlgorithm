@@ -1,7 +1,5 @@
 'use strict';
 
-import { Sleep } from '../Utility';
-
 export const EnumStatus = {
 	Sorting: 0,
 	Sorted: 1,
@@ -29,7 +27,6 @@ export default class BaseSort
 		this.data = null;
 
 		this.state = EnumStatus.Sorting;
-		this.isPlay = false;
 		this.stepValue = 0;
 
 		return;
@@ -39,7 +36,6 @@ export default class BaseSort
 	{
 		this.data = sData;
 		this.state = EnumStatus.Sorting;
-		this.isPlay = false;
 		this.stepValue = 0;
 
 		this.canvas = canvas;
@@ -49,30 +45,7 @@ export default class BaseSort
 		return;
 	}
 
-	stop()
-	{
-		this.isPlay = false;
-		return;
-	}
-	async play(interval)
-	{
-		this.isPlay = true;
-
-		setTimeout(async() => {
-			while(this.isPlay)
-			{
-				await this.playStep(interval);
-				await Sleep(interval);
-				if(this.state == EnumStatus.Finish)
-				{
-					this.isPlay = false;
-				}
-			}
-		}, 0);
-
-		return;
-	}
-	async playStep(_interval)
+	playStep(_interval)
 	{
 		return;
 	}

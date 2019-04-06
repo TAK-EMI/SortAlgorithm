@@ -31,25 +31,37 @@ export default class Slection extends BaseSort
 
 		return;
 	}
-	async playStep(interval)
+	playStep(interval)
 	{
-		this.changeCurrent();
-		this.draw();
-		await Sleep(interval);
-
-		if(this.isFinish == false)
+		return new Promise(async (resolve, reject) =>
 		{
-			this.selectPivot();
-			this.draw();
-			await Sleep(interval);
-	
-			this.sort();
-			this.draw();
-		}
-	
-		this.stepUp();
-
-		return;
+			try
+			{
+				if(this.isFinish == false)
+				{
+					await this.changeCurrent();
+					this.draw();
+					await Sleep(interval);
+			
+					await this.selectPivot();
+					this.draw();
+					await Sleep(interval);
+			
+					await this.sort();
+					this.draw();
+					await Sleep(interval);
+				
+					this.stepUp();
+				}
+		
+				resolve(this.isFinish);
+			} catch (error)
+			{
+				console.error(error);
+				
+				reject(true);
+			}
+		});
 	}
 	changeCurrent()
 	{
@@ -89,7 +101,6 @@ export default class Slection extends BaseSort
 			if(array[cur] < array[pivot])
 			{
 				data.pivotIdx = cur;
-				pivot = cur;
 			}
 		}
 

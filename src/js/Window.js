@@ -8,6 +8,9 @@ import Selection from "./sort/Selection";
 let bubble = new Bubble();
 let select = new Selection();
 
+let isPlay = false;
+let timerID = null;
+
 window.init = () =>
 {
 	let sData = new SortData.createRandom(20, 20);
@@ -22,20 +25,35 @@ window.init = () =>
 
 window.play = () =>
 {
-	let interval = View.PlayInterval;
-
-	bubble.play(interval);
-	select.play(interval);
-
 	View.hidePlayButton();
 	View.showStopButton();
+
+	timerID = setTimeout(async () => {
+		let interval = View.PlayInterval;
+		isPlay = true;
+		while(isPlay)
+		{
+			let finishedBubble = bubble.playStep(interval);
+			let finishedSelection = select.playStep(interval);
+
+			if(((await finishedBubble) && (await finishedSelection)) == true)
+			{
+				isPlay = false;
+			}
+		}
+		window.stop();
+	}, 0);
 
 	return;
 };
 window.stop = () =>
 {
-	bubble.stop();
-	select.stop();
+	isPlay = false;
+	if(timerID !== null)
+	{
+		clearTimeout(timerID);
+		timerID = null;
+	}
 
 	View.showPlayButton();
 	View.hideStopButton();
