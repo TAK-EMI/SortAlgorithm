@@ -1,7 +1,6 @@
 'use strict';
 
 import { Sleep } from '../Utility';
-import View from '../View';
 
 export const EnumStatus = {
 	Sorting: 0,
@@ -82,7 +81,6 @@ export default class BaseSort
 	draw()
 	{
 		this.canvas.draw(this.data);
-		View.StepBubble = this.stepValue;
 		return;
 	}
 

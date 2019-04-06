@@ -15,7 +15,15 @@ export default class Bubble extends BaseSort
 
 	init(sData)
 	{
-		super.init(sData, new Canvas(View.CanvasElement_Bubble));
+		super.init(sData, new Canvas(View.CanvasElementBubble));
+
+		return;
+	}
+
+	draw()
+	{
+		super.draw();
+		View.StepValueBubble = this.stepValue;
 
 		return;
 	}
@@ -35,7 +43,7 @@ export default class Bubble extends BaseSort
 		this.sort();
 		this.draw();
 
-		this.stepValue += 1;
+		this.stepUp();
 
 		return;
 	}
