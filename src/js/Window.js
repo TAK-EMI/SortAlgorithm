@@ -5,11 +5,17 @@ import SortData from './SortData';
 import Bubble from './sort/Bubble';
 import Selection from './sort/Selection';
 import Insertion from './sort/Insertion';
+import Heap from './sort/Heap';
+import Merge from './sort/Merge';
+import Quick from './sort/Quick';
 
 let AlgorithmList = {
 	'Bubble': new Bubble(),
 	'Selection': new Selection(),
 	'Insertion': new Insertion(),
+	'Heap': new Heap(),
+	'Merge': new Merge(),
+	'Quick': new Quick(),
 };
 
 let isPlay = false;
