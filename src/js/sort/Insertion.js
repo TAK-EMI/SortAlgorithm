@@ -12,7 +12,8 @@ export default class Insertion extends BaseSort
 	{
 		let fixArray = this.data.fixArray;
 		let ret = 0;
-		for (const value of fixArray) {
+		for (const value of fixArray)
+		{
 			if(value == false)
 			{
 				ret = fixArray.indexOf(value) - 1;
@@ -66,52 +67,27 @@ export default class Insertion extends BaseSort
 	changeCurrent()
 	{
 		let data = this.data;
-		let prevIdx = data.currentIdx;
 
-		if(this.isSorting == true)
+		if(data.isAllFixed == true)
 		{
-			if(data.isAllFixed == true)
+			this.finish();
+		}else
+		{
+			if(data.isFirst(data.targetIdx) == true)
 			{
-				this.finish();
-			}else
-			{
-				let nextIdx = data.currentIdx = this.FixedMaximumIndex + 1;
-
-				if(data.isInOfBounds(nextIdx) == true)
-				{
-					if(prevIdx !== nextIdx)
-					{
-						data.targetIdx = nextIdx -1;
-					}else
-					{
-						let nextTarget = data.targetIdx -= 1;
-						if(data.isInOfBounds(nextTarget) == false)
-						{
-							data.fixItem(data.currentIdx);
-						}
-					}
-				}else
-				{
-					this.finish();
-				}
+				data.fixItem(data.targetIdx);
 			}
-		}else if(this.isSorted == true)
-		{
-			let nextIdx = data.currentIdx = data.targetIdx;
 
-			if(data.isFirst(nextIdx) == true)
+			let nextIdx = -1;
+			if(this.isSorting == true)
 			{
-				data.fixItem(nextIdx);
 				nextIdx = data.currentIdx = this.FixedMaximumIndex + 1;
-			}
-			if(data.isInOfBounds(nextIdx - 1) == true)
+			}else if(this.isSorted == true)
 			{
-				data.targetIdx = nextIdx - 1;
-				this.sorting();
-			}else
-			{
-				this.finish();
+				nextIdx = data.currentIdx = data.targetIdx;
 			}
+			data.targetIdx = nextIdx - 1;
+			this.sorting();
 		}
 
 		return;
