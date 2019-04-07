@@ -85,6 +85,7 @@ window.stop = () =>
 };
 window.reload = () =>
 {
+	window.stop();
 	window.init();
 	return;
 };

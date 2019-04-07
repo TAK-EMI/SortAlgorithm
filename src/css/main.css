@@ -9,4 +9,5 @@ th {
 }
 .step {
 	float: right;
+	margin-right: 6px;
 }

@@ -50,6 +50,10 @@ export default class SortData
 	{
 		return this.isLast(this.currentIdx);
 	}
+	get isFixedWithCurrent()
+	{
+		return this.isFixed(this.currentIdx);
+	}
 
 	constructor()
 	{
@@ -82,6 +86,15 @@ export default class SortData
 	isLast(idx)
 	{
 		return (idx === (this.Length - 1));
+	}
+	clearFixedArray()
+	{
+		let fixed = this.fixArray;
+		for (let i = 0; i < fixed.length; i++)
+		{
+			fixed[i] = false;
+		}
+		return;
 	}
 	isFixed(idx)
 	{
