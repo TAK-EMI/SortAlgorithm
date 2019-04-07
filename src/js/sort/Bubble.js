@@ -57,10 +57,12 @@ export default class Bubble extends BaseSort
 	{
 		let data = this.data;
 
-		data.currentIdx += 1;
+		let nextIdx = data.currentIdx += 1;
 
-		if(data.isLastWithCurrent == true)
+		if(data.isLast(nextIdx) == true || data.isFixed(nextIdx + 1) == true)
 		{
+			data.fixItem(nextIdx);
+
 			if(this.isSorting == true)
 			{
 				this.finish();
