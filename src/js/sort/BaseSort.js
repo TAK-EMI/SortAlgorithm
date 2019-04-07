@@ -20,6 +20,10 @@ export default class BaseSort
 	{
 		return (this.state === EnumStatus.Sorting);
 	}
+	get isSorted()
+	{
+		return (this.state == EnumStatus.Sorted);
+	}
 
 	constructor()
 	{
@@ -72,6 +76,8 @@ export default class BaseSort
 		data.currentIdx = -1;
 		data.targetIdx = -1;
 		data.pivotIdx = -1;
+
+		data.clearFixedArray();
 
 		return;
 	}

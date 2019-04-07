@@ -54,6 +54,21 @@ export default class SortData
 	{
 		return this.isFixed(this.currentIdx);
 	}
+	get isAllFixed()
+	{
+		let ret = true;
+		let fixed = this.fixArray;
+		for (const ite of fixed)
+		{
+			if(ite == false)
+			{
+				ret = false;
+				break;
+			}
+		}
+
+		return ret;
+	}
 
 	constructor()
 	{
@@ -87,6 +102,10 @@ export default class SortData
 	{
 		return (idx === (this.Length - 1));
 	}
+	isFirst(idx)
+	{
+		return (idx === 0);
+	}
 	clearFixedArray()
 	{
 		let fixed = this.fixArray;
@@ -115,6 +134,22 @@ export default class SortData
 			let w = array[idx1];
 			array[idx1] = array[idx2];
 			array[idx2] = w;
+
+			ret = true;
+		}
+
+		return ret;
+	}
+	swapFixed(idx1, idx2)
+	{
+		let ret = false;
+		let fixArray = this.fixArray;
+
+		if(this.isInOfBounds(idx1, idx2) == true)
+		{
+			let w = fixArray[idx1];
+			fixArray[idx1] = fixArray[idx2];
+			fixArray[idx2] = w;
 
 			ret = true;
 		}

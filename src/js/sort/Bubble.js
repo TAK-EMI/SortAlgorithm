@@ -65,7 +65,6 @@ export default class Bubble extends BaseSort
 
 			if(this.isSorting == true)
 			{
-				data.clearFixedArray();
 				this.finish();
 			}else
 			{
