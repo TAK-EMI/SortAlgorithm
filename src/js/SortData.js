@@ -88,13 +88,14 @@ export default class SortData
 	isInOfBounds(...idxList)
 	{
 		let ret = true;
-		idxList.forEach(idx =>
+		for (const idx of idxList)
 		{
 			if((0 <= idx && idx < this.Length) == false)
 			{
 				ret = false;
+				break;
 			}
-		});
+		}
 
 		return ret;
 	}

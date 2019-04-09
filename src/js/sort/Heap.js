@@ -18,31 +18,34 @@ export default class Heap extends BaseSort
 	{
 		super.init(sData, new Canvas(View.CanvasElementHeap));
 		this.currentHeapIdx = 0;
+		this.firstHeapIdx = 0;
+		this.HeapLength = 20;
 
-		this.HeapIndex = [
-			{ parent:null, index:0, left:1, right:2 },
-			{ parent:0, index:1, left:3, right:4 },
-			{ parent:0, index:2, left:5, right:6 },
-			{ parent:1, index:3, left:7, right:8 },
-			{ parent:1, index:4, left:9, right:10 },
-			{ parent:2, index:5, left:11, right:12 },
-			{ parent:2, index:6, left:13, right:14 },
-			{ parent:3, index:7, left:15, right:16 },
-			{ parent:3, index:8, left:17, right:18 },
-			{ parent:4, index:9, left:19, right: null },
-			{ parent:4, index:10, left:null, right: null },
-			{ parent:5, index:11, left:null, right: null },
-			{ parent:5, index:12, left:null, right: null },
-			{ parent:6, index:13, left:null, right: null },
-			{ parent:6, index:14, left:null, right: null },
-			{ parent:7, index:15, left:null, right: null },
-			{ parent:7, index:16, left:null, right: null },
-			{ parent:8, index:17, left:null, right: null },
-			{ parent:8, index:18, left:null, right: null },
-			{ parent:9, index:19, left:null, right: null },
-		];
+		this.HeapIndex = this.makeHeapArray(this.firstHeapIdx, this.HeapLength);
 		
 		return;
+	}
+	makeHeapArray(firstIdx, maxIdx)
+	{
+		let ret = [];
+		let childIdx = firstIdx + 1;
+
+		ret.push({parent: null, index: firstIdx, left:childIdx++, right:childIdx++});
+
+		let pIdx = 0;
+		for (let i = firstIdx + 1; i < maxIdx; i)
+		{
+			ret.push({parent: pIdx, index: i++, left: childIdx++, right: childIdx++});
+			if(i+1 < maxIdx)
+			{
+				ret.push({parent: pIdx, index: i++, left: childIdx++, right: childIdx++});
+				pIdx += 1;
+			}
+		}
+
+		console.log(ret.reverse());
+
+		return ret;
 	}
 	draw()
 	{
@@ -74,14 +77,15 @@ export default class Heap extends BaseSort
 	getIndex(idx)
 	{
 		let ret = -1;
-		if(idx != null && (0 <= idx && idx < this.HeapIndex.length))
-		{
-			ret = this.HeapIndex[idx].index;
+		// if(idx != null && (0 <= idx && idx < this.HeapIndex.length))
+		// {
+			// ret = this.HeapIndex[idx].index;
+			ret = idx;
 			if(this.data.isInOfBounds(ret) == false)
 			{
 				ret = -1;
 			}
-		}
+		// }
 
 		return ret;
 	}
@@ -93,70 +97,63 @@ export default class Heap extends BaseSort
 
 		do
 		{
-			if(data.isAllFixed == true)
+			let curHeap = this.HeapIndex[this.currentHeapIdx];
+			let prevIdx = data.currentIdx;
+
+			if(data.isInOfBounds(prevIdx) == false)
 			{
-				this.finish();
+				data.currentIdx = curHeap.index;
+				nextTarIdx = data.targetIdx = this.getIndex(curHeap.left);
+				nextPivIdx = data.pivotIdx = this.getIndex(curHeap.right);
+				if(((nextTarIdx < 0) && (nextPivIdx < 0)) && this.HeapIndex.length == 1)
+				{
+					this.finish();
+				}else
+				{
+					this.sorting();
+				}
+			}else if(this.isSorted && curHeap.parent != null)
+			{
+				// let nextHeapIdx = this.currentHeapIdx = curHeap.parent;
+				// let nextHeap = this.HeapIndex[nextHeapIdx];
+	
+				// data.currentIdx = nextHeap.index;
+				// nextTarIdx = data.targetIdx = this.getIndex(nextHeap.left);
+				// nextPivIdx = data.pivotIdx = this.getIndex(nextHeap.right);
+	
+				this.sorting();
 			}else
 			{
-				let curHeap = this.HeapIndex[this.currentHeapIdx];
-				let prevIdx = data.currentIdx;
+				let nextHeapIdx = this.currentHeapIdx += 1;
 	
-				if(data.isInOfBounds(prevIdx) == false)
+				if(nextHeapIdx < this.HeapIndex.length)
 				{
-					data.currentIdx = curHeap.index;
-					nextTarIdx = data.targetIdx = this.getIndex(curHeap.left);
-					nextPivIdx = data.pivotIdx = this.getIndex(curHeap.right);
-					if(((nextTarIdx < 0) && (nextPivIdx < 0)) && this.HeapIndex.length == 1)
-					{
-						this.finish();
-					}else
-					{
-						this.sorting();
-					}
-				}else if(this.isSorted && curHeap.parent != null)
-				{
-					let nextHeapIdx = this.currentHeapIdx = curHeap.parent;
 					let nextHeap = this.HeapIndex[nextHeapIdx];
-		
+	
 					data.currentIdx = nextHeap.index;
 					nextTarIdx = data.targetIdx = this.getIndex(nextHeap.left);
 					nextPivIdx = data.pivotIdx = this.getIndex(nextHeap.right);
-		
-					this.sorting();
 				}else
 				{
-					let nextHeapIdx = this.currentHeapIdx += 1;
-		
-					if(nextHeapIdx < this.HeapIndex.length)
-					{
-						let nextHeap = this.HeapIndex[nextHeapIdx];
-		
-						data.currentIdx = nextHeap.index;
-						nextTarIdx = data.targetIdx = this.getIndex(nextHeap.left);
-						nextPivIdx = data.pivotIdx = this.getIndex(nextHeap.right);
-					}else
-					{
-						data.fixItem(this.HeapIndex[0].index);
-						this.HeapIndex.pop();
-						if(this.HeapIndex.length == 0)
-						{
-							this.finish();
-						}else
-						{
-							for (const node of this.HeapIndex)
-							{
-								node.index += 1;
-							}
-							data.currentIdx = -1;
-							data.targetIdx = -1;
-							data.pivotIdx = -1;
-							this.currentHeapIdx = 0;
-						}
-					}
-					this.sorting();
+					data.fixItem(this.HeapIndex[this.HeapIndex.length - 1].index);
+
+					this.HeapIndex = this.makeHeapArray(this.firstHeapIdx++, this.HeapLength--);
+					// this.HeapIndex.shift();
+					// for (const node of this.HeapIndex)
+					// {
+					// 	node.index += 1;
+					// }
+					data.currentIdx = -1;
+					data.targetIdx = -1;
+					data.pivotIdx = -1;
+					this.currentHeapIdx = 0;
 				}
+				this.sorting();
 			}
 		} while ((nextTarIdx < 0 && nextPivIdx < 0) && (this.isFinish == false));
+
+		console.log(`cur[${data.currentIdx}], tar[${data.targetIdx}], piv[${data.pivotIdx}]`);
+		
 
 		return;
 	}
