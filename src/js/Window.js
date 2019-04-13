@@ -9,6 +9,9 @@ import Heap from './sort/Heap';
 import Merge from './sort/Merge';
 import Quick from './sort/Quick';
 
+const ARRAY_LENGTH = 20;
+const VALUE_LENGTH = 20;
+
 let AlgorithmList = {
 	'Bubble': new Bubble(),
 	'Selection': new Selection(),
@@ -31,10 +34,11 @@ async function OnPlay()
 		let finishedBubble = AlgorithmList['Bubble'].playStep(interval);
 		let finishedSelection = AlgorithmList['Selection'].playStep(interval);
 		let finishedInsertion = AlgorithmList['Insertion'].playStep(interval);
+		let finishedHeap = AlgorithmList['Heap'].playStep(interval);
 
-		if(((await finishedBubble)
-		&& (await finishedSelection)
+		if(((await finishedBubble) && (await finishedSelection)
 		&& (await finishedInsertion)
+		&& (await finishedHeap)
 			) == true)
 		{
 			finished = true;
@@ -52,7 +56,7 @@ async function OnPlay()
 
 window.init = () =>
 {
-	let sData = new SortData.createRandom(20, 20);
+	let sData = new SortData.createRandom(ARRAY_LENGTH, VALUE_LENGTH);
 	for (const key in AlgorithmList)
 	{
 		AlgorithmList[key].init(sData.copy());
