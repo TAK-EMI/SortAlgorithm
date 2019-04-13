@@ -76,16 +76,11 @@ export default class Heap extends BaseSort
 	}
 	getIndex(idx)
 	{
-		let ret = -1;
-		// if(idx != null && (0 <= idx && idx < this.HeapIndex.length))
-		// {
-			// ret = this.HeapIndex[idx].index;
-			ret = idx;
-			if(this.data.isInOfBounds(ret) == false)
-			{
-				ret = -1;
-			}
-		// }
+		let ret = idx;
+		if(this.data.isInOfBounds(ret) == false)
+		{
+			ret = -1;
+		}
 
 		return ret;
 	}
@@ -95,6 +90,8 @@ export default class Heap extends BaseSort
 		let nextTarIdx = -1;
 		let nextPivIdx = -1;
 
+		let errCount = 0;
+		let errCountLimit = 1000;
 		do
 		{
 			let curHeap = this.HeapIndex[this.currentHeapIdx];
@@ -112,16 +109,6 @@ export default class Heap extends BaseSort
 				{
 					this.sorting();
 				}
-			}else if(this.isSorted && curHeap.parent != null)
-			{
-				// let nextHeapIdx = this.currentHeapIdx = curHeap.parent;
-				// let nextHeap = this.HeapIndex[nextHeapIdx];
-	
-				// data.currentIdx = nextHeap.index;
-				// nextTarIdx = data.targetIdx = this.getIndex(nextHeap.left);
-				// nextPivIdx = data.pivotIdx = this.getIndex(nextHeap.right);
-	
-				this.sorting();
 			}else
 			{
 				let nextHeapIdx = this.currentHeapIdx += 1;
@@ -137,12 +124,8 @@ export default class Heap extends BaseSort
 				{
 					data.fixItem(this.HeapIndex[this.HeapIndex.length - 1].index);
 
-					this.HeapIndex = this.makeHeapArray(this.firstHeapIdx++, this.HeapLength--);
-					// this.HeapIndex.shift();
-					// for (const node of this.HeapIndex)
-					// {
-					// 	node.index += 1;
-					// }
+					this.HeapIndex = this.makeHeapArray(this.firstHeapIdx++, this.HeapLength);
+
 					data.currentIdx = -1;
 					data.targetIdx = -1;
 					data.pivotIdx = -1;
@@ -150,10 +133,13 @@ export default class Heap extends BaseSort
 				}
 				this.sorting();
 			}
-		} while ((nextTarIdx < 0 && nextPivIdx < 0) && (this.isFinish == false));
 
-		console.log(`cur[${data.currentIdx}], tar[${data.targetIdx}], piv[${data.pivotIdx}]`);
-		
+			if(errCount++ > errCountLimit)
+			{
+				throw '無限ループの可能性があるため、強制終了';
+			}
+
+		} while ((nextTarIdx < 0 && nextPivIdx < 0) && (this.isFinish == false));
 
 		return;
 	}
