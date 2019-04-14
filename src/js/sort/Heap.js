@@ -43,9 +43,7 @@ export default class Heap extends BaseSort
 			}
 		}
 
-		console.log(ret.reverse());
-
-		return ret;
+		return ret.reverse();
 	}
 	draw()
 	{
