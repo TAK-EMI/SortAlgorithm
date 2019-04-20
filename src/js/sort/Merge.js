@@ -79,13 +79,10 @@ export default class Merge extends BaseSort
 	changeCurrent()
 	{
 		let data = this.data;
-		// data.currentIdx++;
 
 		let split1 = this.currentSplit1;
 		let split2 = this.currentSplit2;
 		let split = this.splitArray;
-
-		console.log(`current[${data.currentIdx}], split01[${split1}], split02[${split2}], length[${this.currentSplitLength}], split:${JSON.stringify(split)}`);
 
 		if((split1 < 0 || split[split1].length == 0) && (split2 < 0 || !split[split2] || split[split2].length == 0))
 		{
@@ -94,7 +91,7 @@ export default class Merge extends BaseSort
 
 			if(split.length < 2)
 			{
-				if(this.currentSplitLength >= data.Length)
+				if((this.currentSplitLength * 2) >= data.Length)
 				{
 					this.finish();
 					return;
@@ -105,45 +102,19 @@ export default class Merge extends BaseSort
 			split1 = this.currentSplit1 = 0;
 			split2 = this.currentSplit2 = 1;
 
-			data.currentIdx = data.targetIdx = split[split1][0];
-			if(split[split2])
-			{
-				data.pivotIdx = split[split2][0];
-			}else
-			{
-				data.pivotIdx = -1;
-			}
-			console.log(`001: ${split1}, ${split2}`);
+			data.currentIdx = split[split1][0];
 			
 		}else if((split1 >= 0 && split[split1].length != 0) || (split2 >= 0 && split[split2].length != 0))
 		{
-			data.targetIdx = -1;
-			data.pivotIdx = -1;
-
-			if(split[split1] && split[split1].length != 0)
-			{
-				data.targetIdx = split[split1][0];
-			}else
+			if(!split[split1] || split[split1].length == 0)
 			{
 				split1 = this.currentSplit1 = -1;
 			}
 
-			if(split[split2] && split[split2].length != 0)
-			{
-				data.pivotIdx = split[split2][0];
-			}else
+			if(!split[split2] || split[split2].length == 0)
 			{
 				split2 = this.currentSplit2 = -1;
 			}
-			console.log(`002: ${split1}, ${split2}`);
-		}else
-		{
-			data.targetIdx = split[split1][0];
-			if(split[split2])
-			{
-				data.pivotIdx = split[split2][0];
-			}
-			console.log(`003: ${split1}, ${split2}`);
 		}
 
 		return;
@@ -177,7 +148,6 @@ export default class Merge extends BaseSort
 		let ret = [];
 		while(split1.length > 0 || split2.length > 0)
 		{
-
 			if(split1.length > 0 && split2.length > 0)
 			{
 				if(array[split1[0]] < array[split2[0]])
@@ -191,7 +161,7 @@ export default class Merge extends BaseSort
 				}
 			}else
 			{
-				if(split1[0])
+				if(split1[0] != null)
 				{
 					ret.push(array[split1[0]]);
 					split1.shift();
