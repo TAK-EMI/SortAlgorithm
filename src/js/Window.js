@@ -35,10 +35,11 @@ async function OnPlay()
 		let finishedSelection = AlgorithmList['Selection'].playStep(interval);
 		let finishedInsertion = AlgorithmList['Insertion'].playStep(interval);
 		let finishedHeap = AlgorithmList['Heap'].playStep(interval);
+		let finishedMerge = AlgorithmList['Merge'].playStep(interval);
 
-		if(((await finishedBubble) && (await finishedSelection)
-		&& (await finishedInsertion)
+		if(((await finishedBubble) && (await finishedSelection) && (await finishedInsertion)
 		&& (await finishedHeap)
+		&& (await finishedMerge)
 			) == true)
 		{
 			finished = true;

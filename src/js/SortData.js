@@ -132,9 +132,12 @@ export default class SortData
 
 		if(this.isInOfBounds(idx1, idx2) == true)
 		{
-			let w = array[idx1];
-			array[idx1] = array[idx2];
-			array[idx2] = w;
+			if(idx1 !== idx2)
+			{
+				let w = array[idx1];
+				array[idx1] = array[idx2];
+				array[idx2] = w;
+			}
 
 			ret = true;
 		}
