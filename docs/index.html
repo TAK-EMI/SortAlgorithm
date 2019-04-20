@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Sort Algorithm</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" media="screen" href="css/main.css">
+	<script src="js/main.js"></script>
+</head>
+<body>
+	<h1>Sort Algorithm</h1>
+	<form>
+		<input type="number" name="interval" id="interval" value="100">ms
+		<input type="button" value="再生" id="btn_play" onclick="play()">
+		<input type="button" value="停止" id="btn_stop" onclick="stop()">
+		<input type="button" value="更新" id="btn_reload" onclick="reload()">
+	</form>
+	<table>
+		<tr>
+			<th>
+				<div id="step_bubble" class="step"></div>
+				バブルソート
+			</th>
+			<th>
+				<div id="step_selection" class="step"></div>
+				選択ソート
+			</th>
+			<th>
+				<div id="step_insertion" class="step"></div>
+				挿入ソート
+			</th>
+		</tr>
+		<tr>
+			<td>
+				<canvas id="canvas_bubble" width="300px" height="300px"></canvas>
+			</td>
+			<td>
+				<canvas id="canvas_selection" width="300px" height="300px"></canvas>
+			</td>
+			<td>
+				<canvas id="canvas_insertion" width="300px" height="300px"></canvas>
+			</td>
+		</tr>
+		<tr>
+			<th>
+				<div id="step_heap" class="step"></div>
+				ヒープソート
+			</th>
+			<th>
+				<div id="step_merge" class="step"></div>
+				マージソート
+			</th>
+			<th>
+				<div id="step_quick" class="step"></div>
+				クイックソート
+			</th>
+		</tr>
+		<tr>
+			<td>
+				<canvas id="canvas_heap" width="300px" height="300px"></canvas>
+			</td>
+			<td>
+				<canvas id="canvas_merge" width="300px" height="300px"></canvas>
+			</td>
+			<td>
+				<canvas id="canvas_quick" width="300px" height="300px"></canvas>
+			</td>
+		</tr>
+	</table>
+	<script>
+		init();
+	</script>
+</body>
+</html>
