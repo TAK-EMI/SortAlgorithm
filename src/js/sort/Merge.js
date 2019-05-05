@@ -84,24 +84,14 @@ export default class Merge extends BaseSort
 
 		if((split[0].length == 0) && (split[1].length == 0))
 		{
-			let curIdx = data.currentIdx;
-			let array = data.array;
-			let idx = -1;
-			let merged = this.mergedArray;
-			for (const i in merged)
-			{
-				idx = Number(i);
-				array[curIdx + idx] = merged[idx];
-			}
-			this.mergedArray = [];
+			this.updateArray();
 
 			split.shift();
 			split.shift();
-
-			let byLength = this.currentSplitLength * 2;
 
 			if(split.length < 2)
 			{
+				let byLength = this.currentSplitLength * 2;
 				if(byLength >= data.Length)
 				{
 					this.finish();
@@ -119,6 +109,21 @@ export default class Merge extends BaseSort
 
 		return;
 	}
+	updateArray()
+	{
+		let data = this.data;
+		let curIdx = data.currentIdx;
+		let array = data.array;
+		let merged = this.mergedArray;
+		let idx = -1;
+		for (const i in merged)
+		{
+			idx = Number(i);
+			array[curIdx + idx] = merged[idx];
+		}
+		this.mergedArray = [];
+		return;
+	}
 	sort()
 	{
 		if(this.isFinish)
@@ -126,66 +131,35 @@ export default class Merge extends BaseSort
 			return;
 		}
 
-		// let data = this.data;
-		// let array = data.array;
-		// let curIdx = data.currentIdx;
 		let split = this.splitArray;
-
-		// let sArray = this.sortPart(split[0], split[1]);
-		this.sortPart(split[0], split[1]);
-
-		// let idx = -1;
-		// // for (const i in sArray)
-		// // {
-		// // 	idx = Number(i);
-		// // 	array[curIdx + idx] = sArray[idx];
-		// // }
-		// let merged = this.mergedArray;
-		// for (const i in merged)
-		// {
-		// 	idx = Number(i);
-		// 	array[curIdx + idx] = merged[idx];
-		// }
-		// this.mergedArray = [];
-
-		return;
-	}
-	sortPart(split1, split2)
-	{
+		let split1 = split[0];
+		let split2 = split[1];
+		
 		let array = this.data.array;
-		// let ret = [];
-		// this.mergedArray = [];
-		// while(split1.length > 0 || split2.length > 0)
-		// {
-			if(split1.length > 0 && split2.length > 0)
+		if(split1.length > 0 && split2.length > 0)
+		{
+			if(array[split1[0]] < array[split2[0]])
 			{
-				if(array[split1[0]] < array[split2[0]])
-				{
-					// ret.push(array[split1[0]]);
-					this.mergedArray.push(array[split1[0]]);
-					split1.shift();
-				}else
-				{
-					// ret.push(array[split2[0]]);
-					this.mergedArray.push(array[split2[0]]);
-					split2.shift();
-				}
+				this.mergedArray.push(array[split1[0]]);
+				split1.shift();
 			}else
 			{
-				if(split1[0] != null)
-				{
-					// ret.push(array[split1[0]]);
-					this.mergedArray.push(array[split1[0]]);
-					split1.shift();
-				}else
-				{
-					// ret.push(array[split2[0]]);
-					this.mergedArray.push(array[split2[0]]);
-					split2.shift();
-				}
+				this.mergedArray.push(array[split2[0]]);
+				split2.shift();
 			}
-		// }
+		}else
+		{
+			if(split1[0] != null)
+			{
+				this.mergedArray.push(array[split1[0]]);
+				split1.shift();
+			}else
+			{
+				this.mergedArray.push(array[split2[0]]);
+				split2.shift();
+			}
+		}
 
-		// return ret;
+		return;
 	}
 }
