@@ -19,8 +19,6 @@ export default class Merge extends BaseSort
 		super.init(sData, new Canvas(View.CanvasElementMerge));
 
 		this.currentSplitLength = 1;
-		this.currentSplit1 = 0;
-		this.currentSplit2 = 1;
 
 		this.data.currentIdx = 0;
 		this.splitArray = this.makeSplitArray(this.currentSplitLength);
@@ -74,47 +72,33 @@ export default class Merge extends BaseSort
 			ret.push(split);
 		}
 
+		this.currentSplitLength = splitLength;
+
 		return ret;
 	}
 	changeCurrent()
 	{
 		let data = this.data;
-
-		let split1 = this.currentSplit1;
-		let split2 = this.currentSplit2;
 		let split = this.splitArray;
 
-		if((split1 < 0 || split[split1].length == 0) && (split2 < 0 || !split[split2] || split[split2].length == 0))
+		if((split[0].length == 0) && (split[1].length == 0))
 		{
 			split.shift();
 			split.shift();
 
+			let byLength = this.currentSplitLength * 2;
+
 			if(split.length < 2)
 			{
-				if((this.currentSplitLength * 2) >= data.Length)
+				if(byLength >= data.Length)
 				{
 					this.finish();
 					return;
 				}
-				split = this.splitArray = this.makeSplitArray(this.currentSplitLength *= 2);
+				split = this.splitArray = this.makeSplitArray(byLength);
 			}
 
-			split1 = this.currentSplit1 = 0;
-			split2 = this.currentSplit2 = 1;
-
-			data.currentIdx = split[split1][0];
-			
-		}else if((split1 >= 0 && split[split1].length != 0) || (split2 >= 0 && split[split2].length != 0))
-		{
-			if(!split[split1] || split[split1].length == 0)
-			{
-				split1 = this.currentSplit1 = -1;
-			}
-
-			if(!split[split2] || split[split2].length == 0)
-			{
-				split2 = this.currentSplit2 = -1;
-			}
+			data.currentIdx = split[0][0];
 		}
 
 		return;
@@ -131,7 +115,7 @@ export default class Merge extends BaseSort
 		let curIdx = data.currentIdx;
 		let split = this.splitArray;
 
-		let sArray = this.sortPart(split[this.currentSplit1], split[this.currentSplit2]);
+		let sArray = this.sortPart(split[0], split[1]);
 
 		let idx = -1;
 		for (const i in sArray)
